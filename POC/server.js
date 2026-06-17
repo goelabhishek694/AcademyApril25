@@ -54,6 +54,60 @@ app.post("/items", (req,res) => {
     });
 });
 
+let movies = [
+    { id: 1, title: "Inception", "lang":"EN", rating: 4.5 },
+    { id: 2, title: "Dangal", "lang":"EN", rating: 5 },
+    { id: 3, title: "Interstellar",  "lang":"hindi", rating: 6.5 },
+  ];
+
+app.get("/api/movies",(req,res) => {
+    const {lang,rating, searchString}= req.query;
+    if(lang){
+        movies = movies.filter(movieObj=>movieObj.lang.toLowerCase() == lang.toLowerCase());
+    }
+
+    if(rating){
+        movies = movies.filter(movieObj=> movieObj.rating >= rating );
+    }
+
+    if(searchString){
+        movies = movies.filter(movieObj => movieObj.title.includes(searchString));
+    }
+
+    
+    res.json({
+        success: true,
+        message: "movies fetched successfully",
+        data:movies
+    });
+});
+
+// app.get("/api/movies/:movieId",(req,res) => {
+//     const id = req.params.movieId;
+//     console.log(id);
+    
+//     res.json({
+//         success: true,
+//         message: "movie fetched successfully",
+//         data:{id: id, name: `Movie ${id}`},
+//     });
+// });
+
+
+
+  app.get("/api/movies/:id",(req,res) => {
+    const {id} = req.params;
+    console.log(id);
+
+    const movie = movies.find((movieObj)=> movieObj.id == id);
+    
+    res.json({
+        success: true,
+        message: "movies fetched successfully",
+        data: movie,
+    });
+  });
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
