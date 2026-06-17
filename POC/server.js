@@ -108,6 +108,71 @@ app.get("/api/movies",(req,res) => {
     });
   });
 
+  app.post("/api/movies",(req,res) => {
+    const newMovie ={
+        id: movies.length+1,
+        title: req.body.title,
+        lang: req.body.lang,
+        rating: req.body.rating,
+    }
+    movies.push(newMovie);
+    res.json({
+        success: true,
+        message: "movie created successfully",
+        data: newMovie,
+    });
+  });
+
+  app.put("/api/movies/:id",(req,res) => {
+    const {id} = req.params;
+    const {title,lang,rating} = req.body;
+
+    const movieIdx = movies.findIndex(movieObj=>movieObj.id==id);
+
+    if(movieIdx == -1){
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found"
+        });
+    }
+
+    movies[movieIdx] = {
+        ...movies[movieIdx],
+        title,
+        lang,
+        rating,
+    }
+
+    res.send({
+        success: true,
+        data: movies[movieIdx],
+    });
+
+  });
+
+  app.patch("/api/movies/:id",(req,res) => {
+    const {id} = req.params;
+    const {title,lang,rating} = req.body;
+    const movieIdx = movies.findIndex(movieObj=>movieObj.id==id);
+
+    if(movieIdx == -1){
+        return res.status(404).json({
+            success: false,
+            message: "Movie not found"
+        });
+    }
+
+    if(title) movies[movieIdx].title = title;   
+    if(lang) movies[movieIdx].lang = lang;
+    if(rating) movies[movieIdx].rating = rating;
+
+    res.json({
+        success: true,
+        message: "movie updated successfully",
+        data: movies[movieIdx],
+    });
+  });
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
