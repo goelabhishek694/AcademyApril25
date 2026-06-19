@@ -1,6 +1,8 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 const PORT = 3000;
+
+import healthRoutes from './routes/healthRoutes.js';
 
 // Express does not read JSON by default
 // Request body comes as raw data
@@ -10,17 +12,11 @@ const PORT = 3000;
 app.use(express.json());
 
 //[ method , url(endpoint), handler function ] -> API 
-app.get("/healthy",handleHealthCheck);
+app.use('/healthy', healthRoutes);
 
 // req-> url , method, headers, body 
 //res -> 
-function handleHealthCheck(req, res){
-    res.json({
-        success: true,
-        message: "server is healthy",
-        timestamp: new Date().toISOString(),
-    })
-}
+
 
 // before we understand debugger, we need to understand server-side data 
 // this array lives on server 
@@ -92,8 +88,6 @@ app.get("/api/movies",(req,res) => {
 //         data:{id: id, name: `Movie ${id}`},
 //     });
 // });
-
-
 
   app.get("/api/movies/:id",(req,res) => {
     const {id} = req.params;
