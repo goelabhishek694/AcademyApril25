@@ -1,10 +1,17 @@
 import React from "react";
 import { Button, Form, Input } from "antd";
 import { Link } from "react-router-dom";
+import { registerUser } from "../api/users";
 
 function Register() {
-  const handleRegister = (values) => {
-    console.log("register form values", values);
+  const handleRegister = async (values) => {
+    try{
+      const reponse = await registerUser(values);''
+      console.log("register form values", reponse);
+    }catch(err){
+      console.log("Error:", err);
+      
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
