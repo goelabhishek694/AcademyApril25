@@ -1,10 +1,34 @@
-import React from "react";
-import { Button, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import React , {useState} from "react";
+import { Button, Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import {loginUser} from "../api/users";
+// forms -> onFinish-> handleLogin -> api -> response -> ui decision 
+// api -> end point method -> called in my component 
 
 function Login() {
-  const handleLogin = (values) => {
-    console.log("login form values", values);
+  const navigate = useNavigate();
+  const [loading, setLoading]= useState(false);
+
+  const handleLogin = async(values) => {
+    try{
+      setLoading(true);
+      console.log("login form values", values);
+      const response = await loginUser(values);
+      console.log("response", response);
+      if(response.success){
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }else{
+        console.log("login form values else", response);
+        message.error(response.message);
+      }
+    } catch (err) {
+      console.log("Error:", err);
+    }finally{
+      console.log("hi i am finally");
+      setLoading(false);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -53,6 +77,7 @@ function Login() {
               block
               htmlType="submit"
               style={{ fontSize: "1rem", fontWeight: "600" }}
+              loading={loading}
             >
               Login
             </Button>

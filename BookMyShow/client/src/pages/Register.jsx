@@ -1,16 +1,25 @@
 import React from "react";
-import { Button, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../api/users";
 
 function Register() {
+  const navigate = useNavigate();
   const handleRegister = async (values) => {
-    try{
-      const reponse = await registerUser(values);''
-      console.log("register form values", reponse);
-    }catch(err){
+    try {
+      const response = await registerUser(values);
+      console.log("response", response);
+      if(response.success){
+        console.log("register form values", response);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      }else{
+        console.log("register form values else", response);
+        message.error(response.message);
+      }
+    } catch (err) {
       console.log("Error:", err);
-      
     }
   };
 
@@ -32,9 +41,7 @@ function Register() {
             name="name"
             htmlFor="name"
             className="d-block"
-            rules={[
-              { required: true, message: "Name is required!" },
-            ]}
+            rules={[{ required: true, message: "Name is required!" }]}
           >
             <Input id="name" type="text" placeholder="Enter your name" />
           </Form.Item>
@@ -46,7 +53,10 @@ function Register() {
             className="d-block"
             rules={[
               { required: true, message: "Email is required!" },
-              { type: "email", message: "Please enter a valid email address!" },
+              {
+                type: "email",
+                message: "Please enter a valid email address!",
+              },
             ]}
           >
             <Input id="email" type="email" placeholder="Enter your email" />
@@ -59,7 +69,10 @@ function Register() {
             className="d-block"
             rules={[
               { required: true, message: "Please input your password!" },
-              {min: 6, message: "Password must be of at least 6 characters!"}
+              {
+                min: 6,
+                message: "Password must be of at least 6 characters!",
+              },
             ]}
           >
             <Input.Password

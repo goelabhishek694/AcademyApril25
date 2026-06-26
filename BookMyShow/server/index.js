@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.js";
 //that this line will load all the environment variables (from .env) file into process.env object
@@ -7,6 +8,11 @@ dotenv.config();
 
 connectDB();
 const app = express();
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.use("/api/users", userRoutes);

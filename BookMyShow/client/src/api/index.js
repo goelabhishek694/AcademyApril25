@@ -2,8 +2,10 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseUrl: "http://localhost:3000/api",
+    baseURL: "http://localhost:5000/api",
     timeout: 5000,
 });
+
+console.log("axiosInstance", axiosInstance);
 
 export default axiosInstance;
