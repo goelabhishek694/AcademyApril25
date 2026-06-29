@@ -10,3 +10,8 @@ export const loginUser = async(payload) => {
     const response = await axiosInstance.post("/users/login", payload);
     return response.data;
 }
+
+export const getCurrentUser = async() => {
+    const response = await axiosInstance.get("/users/current");
+    return response.data;
+}

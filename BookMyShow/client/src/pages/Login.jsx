@@ -15,6 +15,10 @@ function Login() {
       console.log("login form values", values);
       const response = await loginUser(values);
       console.log("response", response);
+      const token = response.data.token;
+      if(token){
+        localStorage.setItem("token", token);
+      }
       if(response.success){
         setTimeout(() => {
           navigate("/");
