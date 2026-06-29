@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
+import { signToken } from "../utility/jwt.js";
 
 export const register = async (req, res) => {
     try{
@@ -49,12 +50,12 @@ export const login = async (req, res) => {
         }else{
             const passwordMatches = await bcrypt.compare(password, user.password);
             if(passwordMatches){
-
+                const token = signToken({ userId: user._id.toString() });
                 //return suceess response
                 return res.status(200).json({
                     success: true,
                     message: "User loggedin successfully",
-                    data: user,
+                    data: {token},
                 });
             }
             else{
