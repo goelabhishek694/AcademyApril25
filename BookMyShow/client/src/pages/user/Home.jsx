@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "../api/users.js";
+import { getCurrentUser } from "../../api/users.js";
 
 export default function Home() {
   const [user, setUser] = useState(null);

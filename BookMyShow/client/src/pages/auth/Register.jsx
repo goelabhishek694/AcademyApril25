@@ -1,53 +1,51 @@
-import React , {useState} from "react";
+import React from "react";
 import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import {loginUser} from "../api/users";
-// forms -> onFinish-> handleLogin -> api -> response -> ui decision 
-// api -> end point method -> called in my component 
+import { registerUser } from "../../api/users";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
-  const [loading, setLoading]= useState(false);
-
-  const handleLogin = async(values) => {
-    try{
-      setLoading(true);
-      console.log("login form values", values);
-      const response = await loginUser(values);
+  const handleRegister = async (values) => {
+    try {
+      const response = await registerUser(values);
       console.log("response", response);
-      const token = response.data.token;
-      if(token){
-        localStorage.setItem("token", token);
-      }
       if(response.success){
+        console.log("register form values", response);
         setTimeout(() => {
-          navigate("/");
+          navigate("/login");
         }, 1000);
       }else{
-        console.log("login form values else", response);
+        console.log("register form values else", response);
         message.error(response.message);
       }
     } catch (err) {
       console.log("Error:", err);
-    }finally{
-      console.log("hi i am finally");
-      setLoading(false);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("login form failed", errorInfo);
+    console.log("register form failed", errorInfo);
   };
 
   return (
     <main className="App-header">
-      <h1>Login to BookMyShow</h1>
+      <h1>Register on BookMyShow</h1>
       <section className="mw-500 text-center px-3">
         <Form
           layout="vertical"
-          onFinish={handleLogin}
+          onFinish={handleRegister}
           onFinishFailed={onFinishFailed}
         >
+          <Form.Item
+            label="Name"
+            name="name"
+            htmlFor="name"
+            className="d-block"
+            rules={[{ required: true, message: "Name is required!" }]}
+          >
+            <Input id="name" type="text" placeholder="Enter your name" />
+          </Form.Item>
+
           <Form.Item
             label="Email"
             name="email"
@@ -55,7 +53,10 @@ function Login() {
             className="d-block"
             rules={[
               { required: true, message: "Email is required!" },
-              { type: "email", message: "Please enter a valid email address!" },
+              {
+                type: "email",
+                message: "Please enter a valid email address!",
+              },
             ]}
           >
             <Input id="email" type="email" placeholder="Enter your email" />
@@ -66,7 +67,13 @@ function Login() {
             name="password"
             htmlFor="password"
             className="d-block"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[
+              { required: true, message: "Please input your password!" },
+              {
+                min: 6,
+                message: "Password must be of at least 6 characters!",
+              },
+            ]}
           >
             <Input.Password
               id="password"
@@ -81,16 +88,15 @@ function Login() {
               block
               htmlType="submit"
               style={{ fontSize: "1rem", fontWeight: "600" }}
-              loading={loading}
             >
-              Login
+              Register
             </Button>
           </Form.Item>
         </Form>
 
         <div>
           <p>
-            New User ? <Link to="/register">Register Here</Link>
+            Already a User ? <Link to="/login">Login Here</Link>
           </p>
         </div>
       </section>
@@ -98,4 +104,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

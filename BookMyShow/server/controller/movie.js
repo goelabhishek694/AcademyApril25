@@ -1,0 +1,65 @@
+import Movie from "../models/movie.js";
+
+export const addMovie = async(req,res) => {
+    try{
+        const movie = await Movie.create(req.body);
+        return res.send({
+            success:true,
+            message:"Movie created successfully",
+            data:movie,
+        })
+    }catch(err){
+        return res.send({
+            success:false,
+            message:err.message,
+        })
+    }
+}
+
+export const getAllMovies = async(req,res) => {
+    try{
+        const movies = await Movie.find().sort({createdAt:-1});
+        return res.send({
+            success:true,
+            message:"Movie fetched successfully",
+            data:movies,
+        })
+    }catch(err){
+        return res.send({
+            success:false,
+            message:err.message,
+        })
+    }
+}
+
+export const updateMovie = async(req, res) => {
+    try{
+        await Movie.findByIdAndUpdate(req.body.movieId, req.body);
+        return res.send({
+            success:true,
+            message:"Movie updated successfully",
+            data:movie,
+        })
+    }catch(err){
+        return res.send({
+            success:false,
+            message:err.message,
+        })
+    }
+}
+
+export const deleteMovie = async(req, res) => {
+    try{
+        await Movie.findByIdAndDelete(req.body.movieId)
+        return res.send({
+            success:true,
+            message:"Movie deleted successfully",
+            data:movie,
+        })
+    }catch(err){
+        return res.send({
+            success:false,
+            message:err.message,
+        })
+    }
+}
