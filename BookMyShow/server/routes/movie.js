@@ -3,10 +3,10 @@ import { addMovie, getAllMovies, updateMovie, deleteMovie } from "../controller/
 
 const movieRouter = express.Router();
 
-movieRouter.post("/add-movie", addMovie);
-movieRouter.get("/get-all-movies", getAllMovies);
-movieRouter.put("/update-movie", updateMovie);
-movieRouter.delete("/delete-movie", deleteMovie);
+movieRouter.post("/", addMovie);
+movieRouter.get("/all", getAllMovies);
+movieRouter.put("/:id", updateMovie);
+movieRouter.delete("/:id", deleteMovie);
 
 export default movieRouter;
 

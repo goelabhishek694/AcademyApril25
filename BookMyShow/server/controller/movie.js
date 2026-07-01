@@ -34,11 +34,10 @@ export const getAllMovies = async(req,res) => {
 
 export const updateMovie = async(req, res) => {
     try{
-        await Movie.findByIdAndUpdate(req.body.movieId, req.body);
+        await Movie.findByIdAndUpdate(req.params.id, req.body);
         return res.send({
             success:true,
             message:"Movie updated successfully",
-            data:movie,
         })
     }catch(err){
         return res.send({
@@ -50,11 +49,10 @@ export const updateMovie = async(req, res) => {
 
 export const deleteMovie = async(req, res) => {
     try{
-        await Movie.findByIdAndDelete(req.body.movieId)
+        await Movie.findByIdAndDelete(req.params.id)
         return res.send({
             success:true,
             message:"Movie deleted successfully",
-            data:movie,
         })
     }catch(err){
         return res.send({
