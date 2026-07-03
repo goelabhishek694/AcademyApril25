@@ -2,7 +2,7 @@ import React from 'react'
 import {Form, Input, Modal, message} from 'antd';
 import {addMovie} from '../api/movies';
 
-function MovieForm({open,setOpen,onSuccess}) {
+function MovieForm({open,setOpen,onSuccess, selectedMovie}) {
     const [form] = Form.useForm();
 
     const onFinish = async(values) => {
@@ -19,7 +19,7 @@ function MovieForm({open,setOpen,onSuccess}) {
     }
 
   return (
-    <Modal title="Add Movie" open={open} onCancel={() => {
+    <Modal title={selectedMovie ? "Edit Movie" : "Add Movie"} open={open} onCancel={() => {
         setOpen(false); form.resetFields();
     }} onOk={() => form.submit()} okText="Add">
 
@@ -46,6 +46,10 @@ function MovieForm({open,setOpen,onSuccess}) {
 
         <Form.Item label="Language" name="language" rules={[{ required: true }]}>
           <Input />
+        </Form.Item>
+
+        <Form.Item label="Release Date" name="date" rules={[{ required: true }]}>
+          <Input type="date" />
         </Form.Item>
 
         <Form.Item label="Release Date" name="date" rules={[{ required: true }]}>
