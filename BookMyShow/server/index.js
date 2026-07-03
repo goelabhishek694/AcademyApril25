@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.js";
 import movieRoutes from "./routes/movie.js";
+import theatreRoutes from "./routes/theatre.js";
 //that this line will load all the environment variables (from .env) file into process.env object
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/movies", movieRoutes);
+app.use("/api/theatres", theatreRoutes);
 
 const PORT = process.env.PORT || 5000;
 

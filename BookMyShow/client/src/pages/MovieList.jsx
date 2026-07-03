@@ -4,6 +4,7 @@ import { getAllMovies } from "../api/movies";
 import MovieForm from "./MovieForm";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
+import { deleteMovie } from "../api/movies";
 
 function MovieList() {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,24 @@ function MovieList() {
     setSelectedMovie(null);
     setOpen(true);
   };
+
+  const handleDelete = async (movie) => {
+    try{
+        setLoading(true);
+        const response = await deleteMovie(movie._id);
+        if(response.success){
+            message.success("Movie deleted successfully");
+            fetchMovies();
+        }else{
+            message.error(response.message);
+        }
+        setLoading(false);
+    }catch(err){
+        setLoading(false);
+        message.error(err.message);
+    }
+
+  }
   const fetchMovies = async () => {
     try {
       setLoading(true);

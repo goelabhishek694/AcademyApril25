@@ -1,13 +1,19 @@
 import React from 'react'
 import {Form, Input, Modal, message} from 'antd';
-import {addMovie} from '../api/movies';
+import {addMovie, updateMovie} from '../api/movies';
 
 function MovieForm({open,setOpen,onSuccess, selectedMovie}) {
     const [form] = Form.useForm();
 
     const onFinish = async(values) => {
         console.log("values", values);
-        const response = await addMovie(values);
+        let response = null;
+        if(selectedMovie){
+          //update movie
+          response = await updateMovie(selectedMovie._id, values);
+        }else{
+          response = await addMovie(values);
+        }
         if(response.success){
             setOpen(false);
             form.resetFields();
@@ -23,7 +29,7 @@ function MovieForm({open,setOpen,onSuccess, selectedMovie}) {
         setOpen(false); form.resetFields();
     }} onOk={() => form.submit()} okText="Add">
 
-        <Form layout="vertical" form={form} onFinish={onFinish}>
+        <Form initialValues={selectedMovie} layout="vertical" form={form} onFinish={onFinish}>
         <Form.Item label="Movie Name" name="title" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
@@ -51,13 +57,9 @@ function MovieForm({open,setOpen,onSuccess, selectedMovie}) {
         <Form.Item label="Release Date" name="date" rules={[{ required: true }]}>
           <Input type="date" />
         </Form.Item>
-
-        <Form.Item label="Release Date" name="date" rules={[{ required: true }]}>
-          <Input type="date" />
-        </Form.Item>
       </Form>
     </Modal>
-  )
+  );
 }
 
 export default MovieForm
