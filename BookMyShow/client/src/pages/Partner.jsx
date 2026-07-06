@@ -3,12 +3,14 @@ import { Tag, Table, Button, message} from "antd";
 import { getMyTheatres } from "../api/theatre";
 import TheatreForm from "./TheatreForm";
 import { PlusOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 function Partner() {
   const [loading, setLoading] = useState(false);
   const [theatres, setTheatres] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedTheatre, setSelectedTheatre] = useState(null);
+  const navigate = useNavigate();
 
   const handleAddTheatre = () => {
     setOpen(true);
@@ -61,6 +63,14 @@ function Partner() {
           <Tag color="red">Pending</Tag>
         ),
     },
+    {
+      title: "Add Shows",
+      render:(_, record) => 
+        record.isActive && (
+          <Button onClick={() => navigate(`/partner/theatres/${record._id}/shows`)}>Add Shows</Button>
+        )
+      
+    }
   ];
   return (
     <div>

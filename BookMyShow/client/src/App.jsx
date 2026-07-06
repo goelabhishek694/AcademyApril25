@@ -9,6 +9,9 @@ import Register from './pages/Register';
 import './App.css'
 import "antd/dist/reset.css";
 import ProtectedRoute from './components/ProtectedRoute';
+import TheatreShows from './pages/TheatreShows';
+import MovieDetails from './pages/MovieDetails';
+import BookShow from './pages/BookShow';
 
 function App() {
 
@@ -21,6 +24,9 @@ function App() {
         <Route path='/user' element={<ProtectedRoute><User /></ProtectedRoute>} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path="/partner/theatres/:theatreId/shows" element={<ProtectedRoute><TheatreShows/></ProtectedRoute>}></Route>
+        <Route path="/movie/:movieId" element={<ProtectedRoute><MovieDetails/></ProtectedRoute>}></Route>
+        <Route path="/book-show/:showId" element={<ProtectedRoute><BookShow/></ProtectedRoute>}></Route>
       </Routes>
     </BrowserRouter>
   )

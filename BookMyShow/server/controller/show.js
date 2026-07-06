@@ -7,7 +7,7 @@ export const addShow = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "Show created successfully",
-            show
+            data:show
         })
     } catch (error) {
         return res.status(500).json({
@@ -26,7 +26,7 @@ export const getShowsByMovieAndDate = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Shows fetched successfully",
-            shows
+            data:shows
         })
     } catch (error) {
         console.error(error.message);
@@ -46,7 +46,7 @@ export const getShowsByTheatre = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Shows fetched successfully",
-            shows
+            data:shows
         })
     } catch (error) {
         console.error(error.message);
