@@ -18,3 +18,21 @@ export const getMyTheatres = async () => {
     return err.response.data || { success: false, message: err.message };
   }
 };
+
+export const getAllTheatres = async() => {
+  try {
+    const response = await axiosInstance.get("/theatres/all");
+    return response.data;
+  } catch (err) {
+    return err.response.data || { success: false, message: err.message };
+  }
+}
+
+export const approveTheatre = async(id) => {
+  try {
+    const response = await axiosInstance.put(`/theatres/approve/${id}`);
+    return response.data;
+  } catch (err) {
+    return err.response.data || { success: false, message: err.message };
+  }
+}

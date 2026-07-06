@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.js";
 import movieRoutes from "./routes/movie.js";
 import theatreRoutes from "./routes/theatre.js";
+import showRoutes from "./routes/show.js";
 //that this line will load all the environment variables (from .env) file into process.env object
 dotenv.config();
 
@@ -16,12 +17,13 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
+console.log("Hello World");
 app.use("/api/users", userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/theatres", theatreRoutes);
+app.use("/api/shows", showRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

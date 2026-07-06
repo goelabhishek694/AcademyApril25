@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import User from "../models/user.js";
 
 export const authMiddleware = async (req, res, next) => {
   try {
@@ -41,3 +42,23 @@ export const authMiddleware = async (req, res, next) => {
     });
   }
 };
+
+export const adminMiddleware = async(req,res,next) => {
+  try{
+    const user = await User.findById(req.userId).select("role");
+    if(!user || user.role !== "admin"){
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized access"
+      })
+    }
+    next();
+  }catch(err){
+    console.error(err.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: err.message
+    })
+  }
+}

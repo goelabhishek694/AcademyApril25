@@ -60,3 +60,27 @@ export const getAllTheatres = async (req, res) => {
         })
     }
 }
+
+export const approveTheatre = async (req, res) => {
+    try{
+        const {id}= req.params;
+        if(!id){
+            return res.status(400).json({
+                success: false,
+                message: "Theatre ID is required"
+            })
+        }
+        await Theatre.findByIdAndUpdate(id, {isActive: true});
+        return res.send({
+            success: true,
+            message: "Theatre approved successfully"
+        });
+    }catch(err){
+        console.error(err.message);
+        return res.status(500).send({
+            success: false,
+            message: "Internal server error",
+            error: err.message
+        })
+    }
+}
