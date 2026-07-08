@@ -1,5 +1,5 @@
 import express from "express";
-import { addShow, getShowsByMovieAndDate, getShowsByTheatre } from "../controller/show.js";
+import { addShow, getShowsByMovieAndDate, getShowsByTheatre, getShowById } from "../controller/show.js";
 import { authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -8,5 +8,6 @@ const router = express.Router();
 router.post("/", authMiddleware, addShow);
 router.get("/by-movie-date", authMiddleware, getShowsByMovieAndDate);
 router.get("/by-theatre", authMiddleware, getShowsByTheatre);
+router.get("/:id", authMiddleware, getShowById);
 
 export default router;

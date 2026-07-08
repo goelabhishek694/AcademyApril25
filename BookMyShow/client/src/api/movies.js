@@ -36,3 +36,12 @@ export const deleteMovie = async (id) => {
     return err.response.data || { success: false, message: err.message };
   }
 };
+
+export const getMovieById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/movies/${id}`);
+    return response.data;
+  } catch (err) {
+    return err.response.data || { success: false, message: err.message };
+  }
+};

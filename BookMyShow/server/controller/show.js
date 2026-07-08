@@ -57,3 +57,20 @@ export const getShowsByTheatre = async (req, res) => {
         })
     }
 }
+
+export const getShowById = async (req, res) => {
+    try{
+    const {id} = req.params;
+    const show = await Show.findById(id).populate("movie").populate("theatre");
+    return res.status(200).json({
+        success: true,
+        message: "Show fetched successfully",
+        data:show
+    })
+    }catch(error){
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+}

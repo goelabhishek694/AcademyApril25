@@ -6,6 +6,8 @@ import userRoutes from "./routes/user.js";
 import movieRoutes from "./routes/movie.js";
 import theatreRoutes from "./routes/theatre.js";
 import showRoutes from "./routes/show.js";
+import bookingRoutes from "./routes/booking.js";
+
 //that this line will load all the environment variables (from .env) file into process.env object
 dotenv.config();
 
@@ -22,6 +24,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/theatres", theatreRoutes);
 app.use("/api/shows", showRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 const PORT = process.env.PORT || 5001;
 

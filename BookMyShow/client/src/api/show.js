@@ -27,3 +27,12 @@ export const getShowsByTheatre = async (theatreId) => {
     return err.response.data || { success: false, message: err.message };
   }
 };
+
+export const getShowById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/shows/${id}`);
+    return response.data;
+  } catch (err) {
+    return err.response.data || { success: false, message: err.message };
+  }
+};

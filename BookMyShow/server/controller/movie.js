@@ -61,3 +61,26 @@ export const deleteMovie = async(req, res) => {
         })
     }
 }
+
+export const getMovieById = async(req, res) => {
+    try{
+        const {id} = req.params;
+        if(!id){
+            return res.send({
+                success:false,
+                message:"Movie ID is required",
+            })
+        }
+        const movie = await Movie.findById(id);
+        return res.send({
+            success:true,
+            message:"Movie fetched successfully",
+            data:movie,
+        })
+    }catch(err){
+        return res.send({
+            success:false,
+            message:err.message,
+        })
+    }
+}
