@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import { signToken } from "../utility/jwt.js";
 import emailHelper from "../utility/emailHelper.js";
+import { otpGenerator } from "../utility/otpGenerator.js";
 
 export const register = async (req, res) => {
   try {
@@ -129,6 +130,11 @@ export const forgetPassword = async (req, res) => {
     await user.save();
     //4. send otp via email
     await emailHelper("otp", user.email, { otp, name: user.name });
+    return res.status(200).json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+
   } catch (err) {
     res.status(500).json({
       message: err.message,
@@ -141,7 +147,8 @@ export const resetPassword = async (req, res) => {
   try {
     let resetDetails = req.body;
     let { email } = req.params;
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
+    console.log(user);
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -155,7 +162,7 @@ export const resetPassword = async (req, res) => {
         message: "password expired",
       });
     }
-
+    console.log(resetDetails.otp, user.otp);
     if (resetDetails.otp !== user.otp) {
       return res.status(401).json({
         success: false,

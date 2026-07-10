@@ -1,16 +1,18 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const Booking = require("../models/booking.js");
-const Show = require("../models/show.js");
+import stripe from "stripe";
+const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY);
+import Booking from "../models/booking.js";
+import Show from "../models/show.js";
+import emailHelper from "../utility/emailHelper.js";
 
 export const makePayment = async (req, res) => {
     try{
         const {token, amount} = req.body;
-        const cutomer = await stripe.customers.create({
+        const cutomer = await stripeClient.customers.create({
             email: token.email,
             source: token.id
         });
 
-        const paymentIntent = await stripe.paymentIntents.create({
+        const paymentIntent = await stripeClient.paymentIntents.create({
             amount,
             currency: "usd",
             customer: customer.id,
@@ -44,7 +46,39 @@ export const bookShow = async (req, res) => {
         const show = await Show.findById(req.body.show).populate("movie");
         const updatedBookedSeats = [...show.bookedSeats, ...req.body.seats];
         await Show.findByIdAndUpdate(req.body.show, {bookedSeats: updatedBookedSeats});
+        const populatedBooking = await Booking.findById(newBooking._id).populate("user")
+        .populate("show")
+        .populate({
+            path:"show",
+            popultate: {
+                path:"movie",
+                model:"Movie"
+            }
+        })
+        .populate({
+            path:"show",
+            popultate: {
+                path:"theatre",
+                model:"Theatre"
+            }
+        });
 
+        console.log(populatedBooking);
+
+
+
+
+        // const bookingData = {
+        //     movie: show.movie.title,
+        //     name: 
+        //     theatre:
+        //     date:
+        //     time: 
+        //     seats:
+        //     amount: 
+        //     transactionId:
+        // }
+        // await emailHelper("tickets", email of person , )
         res.send({
             success: true,
             message: "Show booked successfully",

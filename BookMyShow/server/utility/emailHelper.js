@@ -14,7 +14,8 @@ function replaceContent(content, data){
 
 async function emailHelper(templateName, receiverEmail, data){
     try{
-        const templatePath = path.join( process.cwd(), "email_templates", `${templateName}.html`);
+        const templatePath = path.join( process.cwd(), "utility", "email_templates", `${templateName}.html`);
+        console.log(templatePath);
         let content = await fs.promises.readFile(templatePath, "utf-8");
         content = replaceContent(content, data);
 

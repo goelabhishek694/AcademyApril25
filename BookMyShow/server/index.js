@@ -1,5 +1,6 @@
 import express from "express";
-import dotenv from "dotenv";
+//that this line will load all the environment variables (from .env) file into process.env object
+import dotenv from "dotenv/config";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.js";
@@ -8,8 +9,6 @@ import theatreRoutes from "./routes/theatre.js";
 import showRoutes from "./routes/show.js";
 import bookingRoutes from "./routes/booking.js";
 
-//that this line will load all the environment variables (from .env) file into process.env object
-dotenv.config();
 
 connectDB();
 const app = express();

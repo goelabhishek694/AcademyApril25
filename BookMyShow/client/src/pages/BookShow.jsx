@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { hideLoading, showLoading } from "../Redux/loaderSlice";
+import loaderSlice from "../Redux/loaderSlice";
+const actions = loaderSlice.actions;
 import { getShowById } from "../api/show";
 import { message, Card, Row, Col, Button } from "antd";
 import moment from "moment";
@@ -15,21 +16,22 @@ function BookShow() {
   const [show, setShow] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const navigate = useNavigate();
+  const {loading} = useSelector((store) => store.loaderSlice);
 
   const getData = async () => {
     try {
-      dispatch(showLoading());
+      dispatch(actions.showLoading());
       const response = await getShowById(showId);
       if (response.success) {
         setShow(response.data);
       } else {
         message.error(response.message);
-        dispatch(hideLoading());
+        dispatch(actions.hideLoading());
         navigate("/");
       }
     } catch (err) {
       message.error(err.message);
-      dispatch(hideLoading());
+      dispatch(actions.hideLoading());
     }
   };
 

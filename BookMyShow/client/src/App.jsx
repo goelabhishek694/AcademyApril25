@@ -12,6 +12,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import TheatreShows from './pages/TheatreShows';
 import MovieDetails from './pages/MovieDetails';
 import BookShow from './pages/BookShow';
+import Forget from './pages/Forget';
+import Reset from './pages/Reset';
 
 function App() {
 
@@ -27,6 +29,8 @@ function App() {
         <Route path="/partner/theatres/:theatreId/shows" element={<ProtectedRoute><TheatreShows/></ProtectedRoute>}></Route>
         <Route path="/movie/:movieId" element={<ProtectedRoute><MovieDetails/></ProtectedRoute>}></Route>
         <Route path="/book-show/:showId" element={<ProtectedRoute><BookShow/></ProtectedRoute>}></Route>
+        <Route path="/forget" element={<Forget/>}></Route>
+        <Route path="/reset/:email" element={<Reset/>}></Route>
       </Routes>
     </BrowserRouter>
   )
