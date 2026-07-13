@@ -20,6 +20,31 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("a user disconnected", socket.id);
     });
+
+    socket.on("message", (data) => {
+        //broadcasts the received msg to all other connected clients except the sender. 
+        socket.broadcast.emit("broadcast", data)
+    })
+    // let room = parseInt(Math.random(0,1)*1000);
+    socket.on("create_grp", (room) => {
+        console.log(room)
+        socket.join(room);
+    });
+
+    socket.on("join_grp", (room) => {
+        console.log(socket.id+" joined the room ", room);
+        socket.join(room);
+    });
+
+    socket.on("grp_msg", ({msg, room}) =>{
+        socket.to(room).emit("serv_grp_message", msg);
+    });
+
+    socket.on("leave_grp", (room) => {
+        console.log(socket.id+" left the room ", room);
+        socket.leave(room);
+    });
+    
 })
 
 app.get("/", (req, res) => {

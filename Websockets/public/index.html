@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
     <h1>Websockets</h1>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
+    <input type="text" id="message" />
+<button id="send">Send</button>
 
-        socket.on("message", (data) => {
-            console.log("connected to server ", data);
-        });
-    </script>
+<h2>Messages</h2>
+<div class="messages">
+ <ul id="list"></ul>
+</div>
+
+<button id="createGroup">Create Group</button>
+<button id="joinGroup">Join Group</button>
+<button id="leaveGroup">Leave Group</button>
+<button id="sendToGroup">Send to Group</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

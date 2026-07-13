@@ -1,0 +1,22 @@
+<style>
+    ul{
+        list-style: none;
+    }
+
+    .sender {
+        background-color: lightcoral;
+        margin-left: 4rem;
+        padding:1rem;
+    }
+    
+    .receiver {
+       background-color: lightblue;
+       margin-left: 2rem;
+        padding:1rem;
+    }
+    
+    .messages {
+       width: 50%;
+       /* margin: 0 auto; */
+    }
+</style>
