@@ -1,0 +1,63 @@
+JavaScript on the Server: Traditionally, JavaScript was used only in web browsers. Node.js allows you to use JavaScript to write server-side code, meaning you can write the logic that runs on your server using JavaScript.
+Runtime Environment: It's not a programming language or a framework, but a runtime environment that allows JavaScript to be run on the server side.
+Built on Chrome's V8 Engine: Node.js runs on the V8 JavaScript engine, which powers Google Chrome. This means it's incredibly fast and efficient at running JavaScript code.
+Main features
+Node.js uses non-blocking, event-driven architecture. It's designed to handle asynchronous operations, allowing it to manage multiple operations concurrently without waiting for any to complete.
+This makes it very efficient for tasks like reading/writing to the file system, network operations, or any operations that rely on external data sources.
+Single-Threaded: Despite being single-threaded, it can handle numerous concurrent connections efficiently due to its event-driven nature and use of callbacks or promises.
+Non-Blocking:
+Basic Idea: Think of a restaurant where waiters take orders from multiple tables. Instead of waiting at one table for the kitchen to cook the meal, they move on to take orders from other tables. The waiters don't get "blocked" waiting for one task to complete.
+In Node.js: Similar to the waiters, Node.js doesn’t wait for tasks like reading files or database queries to finish before moving on to the next task. It starts a task, and while it's being processed, Node.js can start handling another task.
+Event-Driven:
+In Node.js: When an event occurs, Node.js reacts by executing the code meant to handle that event (like processing the file or responding to the user's request).
+When you write a server in Node.js and a user sends a request (like asking for a webpage), Node.js takes this request and processes it. While processing (like fetching data from a database), Node.js doesn’t just wait around; it can take more requests and start working on them.
+Once the data for the first request is ready (the event), Node.js finishes processing that request (sends back the webpage) and then moves on to complete other tasks
+Browsers and NodeJS
+Both use Google's V8 JavaScript engine to compile JavaScript into native machine code. This engine is known for its performance and efficiency.
+Both support JavaScript, meaning the core syntax and standard JavaScript functions are the same across both platforms.
+Browsers: Provide a runtime environment for client-side JavaScript, enabling interaction with web pages (DOM manipulation), handling user events, and rendering content.
+Node.js: Provides a server-side runtime environment. It extends JavaScript capabilities to interact with the filesystem, perform network operations, and run applications outside of a browser context.
+APIs and Global Objects:
+Browsers: Offer Web APIs like DOM, WebRTC, Fetch API for HTTP requests, and more are available through global window object
+Node.js: Provides its own set of APIs for server-side operations, like file system manipulation (fs module), creating HTTP servers (http module), etc. Global objects like global ( Similar to window in Browsers ) and process-specific objects like process ( Provides information and control over the current Node.js process. ) are unique to Node.js.
+Availability of APIs
+Browser Environment and APIs:
+Directly Available: In a web browser, APIs like the DOM, fetch, and others are directly available as part of the browser's global environment. You don't need to import them using require or any other import mechanism.
+Global Window Object: These APIs are typically attached to the window object, which represents the global scope in the browser. For example, fetch is accessible as window.fetch, and similarly, the document object for the DOM is window.document.
+No Require Statement Needed: Since these APIs are built into the browser, they are automatically loaded and ready to use in any webpage's JavaScript without needing explicit import statements.
+Node.js Environment and APIs:
+Module System: Node.js uses a module system (CommonJS, specifically). In CommonJS, each file is treated as a separate module..Most of its core functionality, like file system (fs), networking (http), path operations (path), etc., are organized as modules.
+Using Require: To use these modules, you need to import them into your script using the require function. This is because Node.js does not automatically load all modules to keep the global namespace clean and to optimize performance.
+Code
+Create a folder nodeDiscussion and a file nodeExplorer.js
+console.log(global)
+console.log("dir name",__dirname,"file name",__filename)
+Observe the methods like clearTimeout, setInterval etc are part of global object. Notice the directory name and file name
+
+The other features like fs, path, http etc are modules and need to be included in the code
+
+Try doing console.log(process)
+a. process is a global object that provides information about, and control over, the current Node.js process. It is one of the core modules and is available without needing to import it using require.
+b. Environment Variables (process.env):
+
+Stores environment variables as key-value pairs. It's commonly used to access system environment variables or set configuration options for the application
+c. Current Working Directory (process.cwd()):
+
+Returns the current working directory of the Node.js process.
+d. Command Line Arguments (process.argv):
+An array containing the command-line arguments passed when the Node.js process was launched.
+node app.js arg1 arg2 will result in process.argv being ['path/to/node', 'path/to/app.js', 'arg1', 'arg2'].
+e. Process ID (process.pid):
+
+The process ID of the Node.js process.
+f. Standard Input/Output (process.stdin, process.stdout, process.stderr):
+
+Streams for interacting with input/output. For example, process.stdout is used to write output to the terminal.
+g. process.moduleLoadList
+
+This array contains the names of the built-in modules that have been loaded by the process. It's useful for debugging or understanding which modules your application is using.
+Notice the internal bindings and native modules
+(i) "Internal Binding" modules refer to the internal C++ bindings that are used by Node.js. These bindings are essentially the lower-level code that Node.js uses to interact with the underlying system and V8 engine.
+(ii) They provide functionality that is not directly exposed to the Node.js user but is used internally by various Node.js core modules. For example, bindings to the file system, network, or other system-level operations.
+(iii) "NativeModule" refers to modules that are written in JavaScript but are part of the Node.js core. They are "native" in the sense that they come bundled with Node.js itself.
+(iv) Unlike internal bindings, NativeModules are often directly accessible and usable in Node.js applications. They form the standard library of Node.js.
