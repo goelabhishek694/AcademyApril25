@@ -3,11 +3,8 @@
 
 const express = require("express");
 const app = express();
-
-function calculateFibonacci(n) {
-    if(n<=1) return n;
-    return calculateFibonacci(n-1) + calculateFibonacci(n-2);
-}
+const {fork} = require("child_process");
+const path = require("path");
 
 app.use(express.static("public"));
 
@@ -17,12 +14,20 @@ app.get("/fib", (req, res) => {
     if(!number || isNaN(number)) {
         return res.status(400).send("Invalid number");
     }
-    const answer = calculateFibonacci(number);
-    res.status(200).json({
-        status: "success",
-        message: `Fibonacci of ${number} is ${answer}`,
-        requestNumber,
+    //creating a new child process
+    const fiboRes = fork(path.join(__dirname, "fiboWorker.js"));
+    fiboRes.send({number: parseInt(number, 10)});
+
+    fiboRes.on("message", (result) => {
+        console.log("sending response for req", requestNumber);
+        res.status(200).json({
+            status: "success",
+            message: `Fibonacci of ${number} is ${result}`,
+            requestNumber
+        });
+        fiboRes.kill();
     });
+
 });
 
 app.listen(3000, () => {
