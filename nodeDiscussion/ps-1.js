@@ -12,13 +12,19 @@ const http = require("http");
 
 const server = http.createServer();
 
+// server.on("request", (req, res) => {
+//     const readStream = fs.readFile(__dirname + "/largeFile.txt", (err, data) => {
+//         if(err){
+//             throw err;
+//         }
+//         res.end(data);
+//     });
+// });
+
+//solution
 server.on("request", (req, res) => {
-    const readStream = fs.readFile(__dirname + "/largeFile.txt", (err, data) => {
-        if(err){
-            throw err;
-        }
-        res.end(data);
-    });
+    const readStream = fs.createReadStream(__dirname + "/largeFile.txt");
+    readStream.pipe(res);
 });
 
 server.listen(3000, () => {
